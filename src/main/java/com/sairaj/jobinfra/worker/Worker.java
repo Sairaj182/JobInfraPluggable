@@ -11,6 +11,7 @@ public class Worker implements Runnable {
     public Worker(JobQueue queue, JobExecutorRegistry registry){
         this.queue = queue;
         this.registry = registry;
+        System.out.println("Worker instance created: " + Thread.currentThread().getName());
     }
     public void run(){
         while(true){

@@ -9,9 +9,8 @@ import jakarta.annotation.PreDestroy;
 public class WorkerPool{
     private final ExecutorService executor;
     
-    public WorkerPool(int poolSize, JobQueue queue, JobExecutorRegistry registry){
+    public WorkerPool(JobQueue queue, JobExecutorRegistry registry, int poolSize){
         this.executor = Executors.newFixedThreadPool(poolSize);
-
         for(int i=0; i<poolSize; i++){
             executor.submit(new Worker(queue, registry));
         }

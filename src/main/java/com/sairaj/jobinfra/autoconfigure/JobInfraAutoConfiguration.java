@@ -5,7 +5,9 @@ import com.sairaj.jobinfra.worker.*;
 import com.sairaj.jobinfra.registry.*;
 import com.sairaj.jobinfra.executor.*;
 import com.sairaj.jobinfra.service.*;
+import com.sairaj.jobinfra.properties.JobInfraProperties;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -13,6 +15,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import java.util.List;
 
 @Configuration
+@EnableConfigurationProperties(JobInfraProperties.class)
 public class JobInfraAutoConfiguration {
 
     @Bean
@@ -35,13 +38,14 @@ public class JobInfraAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public WorkerPool workerPool(JobQueue queue, JobExecutorRegistry registry) {
-        return new WorkerPool(3, queue, registry);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
     public JobService jobService(JobQueue queue, JobRegistry registry) {
         return new JobService(queue, registry);
     }
+
+    @Bean
+    public WorkerPool workerPool(JobQueue queue,JobExecutorRegistry registry,JobInfraProperties properties) {
+        int poolSize = properties.getWorker().getCount();
+        return new WorkerPool(queue, registry, poolSize);
+    }
+
 }
