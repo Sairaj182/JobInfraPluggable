@@ -1,0 +1,132 @@
+{
+  "info": {
+    "name": "JobInfra Cloud Phase 1.5",
+    "description": "API collection for JobInfra Cloud.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Observability",
+      "item": [
+        {
+          "name": "Get Root Metadata",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "http://localhost:8080/", "host": ["http://localhost:8080"], "path": [""]}
+          }
+        },
+        {
+          "name": "Get Version",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "http://localhost:8080/version", "host": ["http://localhost:8080"], "path": ["version"]}
+          }
+        },
+        {
+          "name": "Get Health",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "http://localhost:8080/health", "host": ["http://localhost:8080"], "path": ["health"]}
+          }
+        },
+        {
+          "name": "Get System Metrics",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "http://localhost:8080/api/v1/system/metrics", "host": ["http://localhost:8080"], "path": ["api", "v1", "system", "metrics"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"username\": \"demo_user\", \"password\": \"secure_password\"}"},
+            "url": {"raw": "http://localhost:8080/api/v1/auth/register", "host": ["http://localhost:8080"], "path": ["api", "v1", "auth", "register"]}
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"username\": \"demo_user\", \"password\": \"secure_password\"}"},
+            "url": {"raw": "http://localhost:8080/api/v1/auth/login", "host": ["http://localhost:8080"], "path": ["api", "v1", "auth", "login"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "item": [
+        {
+          "name": "Create Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{jwt_token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {"mode": "raw", "raw": "{\"name\": \"Email Processing\"}"},
+            "url": {"raw": "http://localhost:8080/api/v1/projects", "host": ["http://localhost:8080"], "path": ["api", "v1", "projects"]}
+          }
+        },
+        {
+          "name": "Get Projects",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{jwt_token}}"}],
+            "url": {"raw": "http://localhost:8080/api/v1/projects", "host": ["http://localhost:8080"], "path": ["api", "v1", "projects"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "API Keys",
+      "item": [
+        {
+          "name": "Generate API Key",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{jwt_token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {"mode": "raw", "raw": "{\"description\": \"Production Key\"}"},
+            "url": {"raw": "http://localhost:8080/api/v1/projects/1/keys", "host": ["http://localhost:8080"], "path": ["api", "v1", "projects", "1", "keys"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Jobs",
+      "item": [
+        {
+          "name": "Submit Job",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "X-API-KEY", "value": "{{api_key}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {"mode": "raw", "raw": "{\"handlerName\": \"emailHandler\", \"payload\": \"{\\\"to\\\": \\\"user@example.com\\\"}\"}"},
+            "url": {"raw": "http://localhost:8080/api/v1/jobs", "host": ["http://localhost:8080"], "path": ["api", "v1", "jobs"]}
+          }
+        },
+        {
+          "name": "Get Jobs",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-KEY", "value": "{{api_key}}"}],
+            "url": {"raw": "http://localhost:8080/api/v1/jobs", "host": ["http://localhost:8080"], "path": ["api", "v1", "jobs"]}
+          }
+        }
+      ]
+    }
+  ]
+}
