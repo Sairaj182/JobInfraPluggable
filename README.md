@@ -1,4 +1,4 @@
-# JobInfra Cloud 🚀
+# JobInfra Cloud 
 
 JobInfra Cloud is a high-performance, plug-and-play background job processing engine and REST API service. It allows developers to offload, monitor, and execute background tasks seamlessly using API keys for secure multi-tenant project separation.
 
