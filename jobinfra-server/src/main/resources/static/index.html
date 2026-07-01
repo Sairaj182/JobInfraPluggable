@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{jobinfra.app.name}}</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #111827;
+            --text-muted: #6b7280;
+            --card-bg: #f9fafb;
+            --border-color: #e5e7eb;
+            --accent-color: #111827;
+            --accent-hover: #374151;
+            --accent-text: #ffffff;
+            --success-color: #059669;
+            --font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --code-bg: #f3f4f6;
+            --code-color: #111827;
+            --radius: 4px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #030712;
+                --text-color: #f9fafb;
+                --text-muted: #9ca3af;
+                --card-bg: #111827;
+                --border-color: #374151;
+                --accent-color: #f9fafb;
+                --accent-hover: #d1d5db;
+                --accent-text: #111827;
+                --success-color: #10b981;
+                --code-bg: #111827;
+                --code-color: #f9fafb;
+            }
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        header {
+            padding: 80px 0 40px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 40px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            padding: 4px 12px;
+            border-radius: var(--radius);
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        .status-badge::before {
+            content: "●";
+            color: var(--success-color);
+            margin-right: 8px;
+            font-size: 10px;
+        }
+
+        h1 {
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 0 0 16px;
+            color: var(--text-color);
+        }
+
+        .subtitle {
+            font-size: 20px;
+            font-weight: 500;
+            margin: 0 0 24px;
+            color: var(--text-muted);
+        }
+
+        .description {
+            font-size: 16px;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 0 24px;
+        }
+
+        .version {
+            display: inline-block;
+            font-family: monospace;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 4px 8px;
+            border-radius: var(--radius);
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 60px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 16px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.15s;
+        }
+
+        .btn:hover {
+            background-color: var(--card-bg);
+            border-color: var(--text-color);
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 0 24px;
+            color: var(--text-color);
+        }
+
+        .architecture {
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 32px;
+            margin-bottom: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .flow-node {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            min-width: 220px;
+        }
+
+        .flow-node.highlight {
+            background-color: var(--accent-color);
+            color: var(--accent-text);
+            border-color: var(--accent-color);
+        }
+
+        .flow-arrow {
+            color: var(--text-muted);
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 60px;
+        }
+
+        .feature-card {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .feature-card::before {
+            content: "✓";
+            color: var(--text-muted);
+            margin-right: 12px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .example-code {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 20px;
+            position: relative;
+            margin-bottom: 60px;
+            overflow-x: auto;
+        }
+
+        pre {
+            margin: 0;
+            color: var(--code-color);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 6px 12px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.15s;
+        }
+
+        .copy-btn:hover {
+            background: var(--card-bg);
+            border-color: var(--text-color);
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 32px 0;
+            margin-bottom: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .footer-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .tag {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-color);
+            padding: 2px 6px;
+            border-radius: var(--radius);
+            font-family: monospace;
+            color: var(--text-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="status-badge">Operational</div>
+            <h1>{{jobinfra.app.name}}</h1>
+            <div class="subtitle">Multi-tenant Background Job Orchestration Platform</div>
+            <p class="description">
+                Offload asynchronous tasks through secure REST APIs. JobInfra persists, schedules, dispatches and tracks background jobs while your application executes the business logic.
+            </p>
+            <div class="version">{{jobinfra.app.version}}</div>
+        </header>
+
+        <div class="actions">
+            <a href="{{jobinfra.docs.url}}" class="btn">API Documentation</a>
+            <a href="/health" class="btn">Health</a>
+            <a href="/api/v1/system/metrics" class="btn">Metrics</a>
+            <a href="/version" class="btn">Version</a>
+            <a href="{{jobinfra.github.url}}" class="btn" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+
+        <h2 class="section-title">Architecture</h2>
+        <div class="architecture">
+            <div class="flow-node">Client Application</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node highlight">JobInfra Cloud</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node">Worker Pool</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node">Execution Strategy</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node">Spring Handler OR Webhook</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node">Business Logic</div>
+        </div>
+
+        <h2 class="section-title">Features</h2>
+        <div class="features">
+            <div class="feature-card">Multi Tenant</div>
+            <div class="feature-card">JWT Authentication</div>
+            <div class="feature-card">API Keys</div>
+            <div class="feature-card">PostgreSQL</div>
+            <div class="feature-card">Worker Pool</div>
+            <div class="feature-card">Spring Handler Execution</div>
+            <div class="feature-card">Webhook Execution</div>
+            <div class="feature-card">Docker</div>
+            <div class="feature-card">OpenAPI</div>
+            <div class="feature-card">Health & Metrics</div>
+            <div class="feature-card">Request Tracing</div>
+            <div class="feature-card">HMAC Webhooks</div>
+        </div>
+
+        <h2 class="section-title">Example API Call</h2>
+        <div class="example-code">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<pre><code id="curl-code">curl -X POST {{jobinfra.base-url}}/api/v1/jobs \
+-H "X-API-KEY: ji_live_xxxxxxxxx" \
+-H "Content-Type: application/json" \
+-d '{
+  "type": "email-notification",
+  "payload": {
+    "to": "user@example.com",
+    "subject": "Welcome"
+  }
+}'</code></pre>
+        </div>
+
+        <footer>
+            <div class="footer-group">
+                <span>Version <span class="tag">{{jobinfra.app.version}}</span></span>
+                <span>Deployment: AWS Docker</span>
+            </div>
+            <div class="footer-group">
+                <span>Built with: Java 21, Spring Boot, PostgreSQL, Docker</span>
+            </div>
+            <div class="footer-group">
+                <span>License: MIT</span>
+                <span>&copy; 2026 JobInfra</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function copyCode(btn) {
+            const code = document.getElementById('curl-code').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = 'Copied!';
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
